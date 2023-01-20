@@ -1,5 +1,6 @@
 import { Plugin, TFile } from "obsidian";
 import { deleteTrashNotesCommand } from "src/commands/deleteTrashNotesCommand";
+import { deleteTrashNotes } from "src/features/deleteTrashNotes";
 import { DEFAULT_SETTINGS, SettingsObject } from "src/settings/SettingsObject";
 import { SettingsTab } from "src/settings/SettingsTab";
 
@@ -17,6 +18,9 @@ export default class DeleteTrashNotesPlugin extends Plugin {
 
 		// # Commands
 		this.addCommand(deleteTrashNotesCommand);
+
+		// # Delete Trash-Notes on Start-Up
+		app.workspace.onLayoutReady(this.deleteTrashNotesOnStartUp.bind(this));
 	}
 
 	onunload() {}
@@ -31,5 +35,14 @@ export default class DeleteTrashNotesPlugin extends Plugin {
 
 	async saveSettings() {
 		await this.saveData(this.settings);
+	}
+
+	async deleteTrashNotesOnStartUp() {
+		// @guard
+		if (!this.settings.deleteTrashNotesOnStartup) {
+			return;
+		}
+
+		await deleteTrashNotes();
 	}
 }
