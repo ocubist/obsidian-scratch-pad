@@ -1,4 +1,5 @@
 import { Plugin, TFile } from "obsidian";
+import { deleteTrashNotesCommand } from "src/commands/deleteTrashNotesCommand";
 import { DEFAULT_SETTINGS, SettingsObject } from "src/settings/SettingsObject";
 import { SettingsTab } from "src/settings/SettingsTab";
 
@@ -13,6 +14,9 @@ export default class DeleteTrashNotesPlugin extends Plugin {
 
 		// # Settings
 		this.addSettingTab(new SettingsTab(this));
+
+		// # Commands
+		this.addCommand(deleteTrashNotesCommand);
 	}
 
 	onunload() {}
