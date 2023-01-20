@@ -10,5 +10,5 @@ export async function deleteTrashNotes() {
 		app.vault.delete(noteToDelete); // idea: Maybe better not completely delete them...
 	}
 
-	new Notice(`${length} Trash-Notes have been deleted...`);
+	new Notice(`${length} Trash-Notes have been deleted...`); // todo: Handle 0, 1 and many differently
 }
