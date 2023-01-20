@@ -1,11 +1,11 @@
-import DeleteTrashNotesPlugin from "main";
+import ScratchPadPlugin from "main";
 import { PluginSettingTab, Setting } from "obsidian";
 import { getFolders } from "src/helpers/getFolders";
 
 export class SettingsTab extends PluginSettingTab {
-	plugin: DeleteTrashNotesPlugin;
+	plugin: ScratchPadPlugin;
 
-	constructor(plugin: DeleteTrashNotesPlugin) {
+	constructor(plugin: ScratchPadPlugin) {
 		super(plugin.app, plugin);
 		this.plugin = plugin;
 	}

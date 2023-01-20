@@ -6,7 +6,7 @@ import { SettingsTab } from "src/settings/SettingsTab";
 
 // Remember to rename these classes and interfaces!
 
-export default class DeleteTrashNotesPlugin extends Plugin {
+export default class ScratchPadPlugin extends Plugin {
 	settings: SettingsObject;
 	openNotes: TFile[] = [];
 
@@ -21,6 +21,8 @@ export default class DeleteTrashNotesPlugin extends Plugin {
 
 		// # Delete Trash-Notes on Start-Up
 		app.workspace.onLayoutReady(this.deleteTrashNotesOnStartUp.bind(this));
+
+		// # Update Open-Notes
 	}
 
 	onunload() {}
@@ -44,5 +46,13 @@ export default class DeleteTrashNotesPlugin extends Plugin {
 		}
 
 		await deleteTrashNotes();
+	}
+
+	async updateOpenNotes() {
+		// const newOpenNotes = getOpenNotes();
+		// const difference = getDifferenceOfTwoNoteArrays(
+		// 	newOpenNotes,
+		// 	this.openNotes
+		// );
 	}
 }

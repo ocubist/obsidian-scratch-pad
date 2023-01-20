@@ -1,5 +1,5 @@
 {
-	"name": "obsidian-delete-trash-notes",
+	"name": "obsidian-scratch-pad",
 	"version": "0.2.0",
 	"description": "This plugin provides functionality to auto-delete notes, that match specific patterns.",
 	"main": "main.js",
