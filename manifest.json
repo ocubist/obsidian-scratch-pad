@@ -1,0 +1,11 @@
+{
+	"id": "obsidian-delete-trash-notes",
+	"name": "Delete Trash-Notes",
+	"version": "0.2.0",
+	"minAppVersion": "0.15.0",
+	"description": "This plugin provides functionality to auto-delete notes, that match specific patterns.",
+	"author": "ocubist",
+	"authorUrl": "https://github.com/ocubist",
+	"fundingUrl": "https://www.buymeacoffee.com/ocubist",
+	"isDesktopOnly": false
+}
