@@ -1,5 +1,5 @@
 import { MarkdownView, TFile } from "obsidian";
-import { filterUniqueArrayItems } from "./filterUniqueArrayItems";
+import { filterUniqueNotes } from "./filterUniqueNotes";
 import { isNote } from "./isNote";
 
 export function getOpenNotes() {
@@ -11,5 +11,5 @@ export function getOpenNotes() {
 		}
 	});
 
-	return openNotes.filter(filterUniqueArrayItems).filter(isNote);
+	return openNotes.filter(filterUniqueNotes).filter(isNote);
 }
