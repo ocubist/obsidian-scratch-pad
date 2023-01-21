@@ -22,12 +22,14 @@ export default class ScratchPadPlugin extends Plugin {
 		// # Commands
 		this.addCommand(deleteTrashNotesCommand);
 
-		// # Delete Trash-Notes on Start-Up
-		app.workspace.onLayoutReady(this.deleteTrashNotesOnStartUp.bind(this));
+		// # On StartUp
+		app.workspace.onLayoutReady(this.onStartUp.bind(this));
 
 		// # Update Open-Notes
-		app.workspace.onLayoutReady(await this.updateOpenNotes.bind(this));
-		app.workspace.on("layout-change", this.updateOpenNotes.bind(this));
+		app.workspace.on(
+			"layout-change",
+			this.deleteClosedTrashNotes.bind(this)
+		);
 	}
 
 	onunload() {}
@@ -44,16 +46,7 @@ export default class ScratchPadPlugin extends Plugin {
 		await this.saveData(this.settings);
 	}
 
-	async deleteTrashNotesOnStartUp() {
-		// @guard
-		if (!this.settings.deleteTrashNotesOnStartup) {
-			return;
-		}
-
-		await deleteTrashNotes(findTrashNotes());
-	}
-
-	async updateOpenNotes() {
+	async deleteClosedTrashNotes() {
 		try {
 			const newOpenNotes = getOpenNotes();
 			if (this.settings.deleteTrashNotesOnTabClose) {
@@ -74,6 +67,18 @@ export default class ScratchPadPlugin extends Plugin {
 			this.openNotes = newOpenNotes;
 		} catch {
 			// ignore...
+		}
+	}
+
+	updateOpenNotes(notes: TFile[]) {
+		this.openNotes = notes;
+	}
+
+	async onStartUp() {
+		this.updateOpenNotes(getOpenNotes());
+
+		if (this.settings.deleteTrashNotesOnStartup) {
+			await deleteTrashNotes(findTrashNotes());
 		}
 	}
 }
