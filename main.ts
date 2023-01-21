@@ -1,6 +1,7 @@
 import { Plugin, TFile } from "obsidian";
 import { deleteTrashNotesCommand } from "src/commands/deleteTrashNotesCommand";
 import { deleteTrashNotes } from "src/features/deleteTrashNotes";
+import { findTrashNotes } from "src/features/findTrashNotes";
 import { getDifferenceOfTwoNoteArrays } from "src/helpers/getDifferenceOfTwoNoteArrays";
 import { getOpenNotes } from "src/helpers/getOpenNotes";
 import { DEFAULT_SETTINGS, SettingsObject } from "src/settings/SettingsObject";
@@ -25,6 +26,8 @@ export default class ScratchPadPlugin extends Plugin {
 		app.workspace.onLayoutReady(this.deleteTrashNotesOnStartUp.bind(this));
 
 		// # Update Open-Notes
+		app.workspace.onLayoutReady(await this.updateOpenNotes.bind(this));
+		app.workspace.on("layout-change", this.updateOpenNotes.bind(this));
 	}
 
 	onunload() {}
@@ -47,25 +50,30 @@ export default class ScratchPadPlugin extends Plugin {
 			return;
 		}
 
-		await deleteTrashNotes();
+		await deleteTrashNotes(findTrashNotes());
 	}
 
 	async updateOpenNotes() {
-		const newOpenNotes = getOpenNotes();
-		if (this.settings.deleteTrashNotesOnTabClose) {
-			const difference = getDifferenceOfTwoNoteArrays(
-				newOpenNotes,
-				this.openNotes
-			);
+		try {
+			const newOpenNotes = getOpenNotes();
+			if (this.settings.deleteTrashNotesOnTabClose) {
+				const difference = getDifferenceOfTwoNoteArrays(
+					this.openNotes,
+					newOpenNotes
+				);
 
-			const closedTabs = [...difference.missingNotes];
+				// 	originalOpenNotes: this.openNotes,
+				// 	newNotes: difference.newNotes,
+				// 	missingNotes: difference.missingNotes,
+				// });
 
-			while (closedTabs.length > 0) {
-				const note = closedTabs.pop();
-				// @ts-ignore
-				if (!note.deleted) {
-				}
+				const closedNotes = [...difference.missingNotes];
+				await deleteTrashNotes(closedNotes);
 			}
+
+			this.openNotes = newOpenNotes;
+		} catch {
+			// ignore...
 		}
 	}
 }
