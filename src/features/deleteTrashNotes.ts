@@ -1,5 +1,6 @@
 import { Notice, TFile } from "obsidian";
 import { UnexpectedError } from "src/errors/UnexpectedError";
+import { getPlugin } from "src/helpers/getPlugin";
 import { isTrashNote } from "./isTrashNote";
 
 export async function deleteTrashNotes(notes: TFile[]) {
@@ -18,6 +19,11 @@ export async function deleteTrashNotes(notes: TFile[]) {
 }
 
 function fireToasty(amount: number) {
+	// @guard
+	if (!getPlugin().settings.showToasties) {
+		return;
+	}
+
 	if (amount < 0 || !Number.isInteger(amount)) {
 		// * Case: Invalid
 		throw new UnexpectedError(
