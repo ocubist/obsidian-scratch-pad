@@ -5,6 +5,7 @@ export interface SettingsObject {
 	trashNoteFolderPath: string;
 	recursive: boolean;
 	showToasties: boolean;
+	deleteSetting: string;
 }
 
 export const DEFAULT_SETTINGS: SettingsObject = {
@@ -14,4 +15,5 @@ export const DEFAULT_SETTINGS: SettingsObject = {
 	trashNoteFolderPath: "/",
 	recursive: false,
 	showToasties: true,
+	deleteSetting: "obsidianTrash",
 };

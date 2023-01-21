@@ -1,6 +1,7 @@
 import { Notice, TFile } from "obsidian";
 import { UnexpectedError } from "src/errors/UnexpectedError";
 import { getPlugin } from "src/helpers/getPlugin";
+import { deleteTrashNote } from "./deleteTrashNote";
 import { isTrashNote } from "./isTrashNote";
 
 export async function deleteTrashNotes(notes: TFile[]) {
@@ -11,7 +12,7 @@ export async function deleteTrashNotes(notes: TFile[]) {
 		const note = _notes.pop() as TFile;
 		if (isTrashNote(note)) {
 			deleteCounter = deleteCounter + 1;
-			await app.vault.delete(note);
+			await deleteTrashNote(note);
 		}
 	}
 
