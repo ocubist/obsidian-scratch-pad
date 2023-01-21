@@ -1,3 +1,5 @@
+# Scratch-Pad
+
 ## Goal
 
 A Plugin for Obsidian, that automatically deletes _Trash-Notes_
@@ -37,3 +39,13 @@ There is probably no need for a special interface-extension
 -   Toggle: Delete Trash-Notes on Start-Up
     -   Better would be: Turn On and Turn Off
 -   Delete specified Trash-Notes
+
+### Todo
+
+-   Add multiple naming-patterns
+    -   Default, if nothing is provided: `^Undefined`
+-   Add multiple folders
+    -   Default, if nothing is provided: `/`
+-   Add the option to delete the notes once and for all, or to just trash them
+-   Change the Tostie, when notes get deleted
+    -   Ignore (?) when nothing get's deleted and use singular when just one note get's deleted
