@@ -77,5 +77,16 @@ export class SettingsTab extends PluginSettingTab {
 						await this.plugin.saveSettings();
 					});
 			});
+
+		new Setting(containerEl)
+			.setName("Show Notification-Message when Trash-Notes got deleted")
+			.addToggle((toggle) => {
+				toggle
+					.setValue(this.plugin.settings.showToasties)
+					.onChange(async (value) => {
+						this.plugin.settings.showToasties = value;
+						await this.plugin.saveSettings();
+					});
+			});
 	}
 }

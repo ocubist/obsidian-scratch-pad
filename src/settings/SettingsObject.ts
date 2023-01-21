@@ -4,6 +4,7 @@ export interface SettingsObject {
 	trashNotePattern: string;
 	trashNoteFolderPath: string;
 	recursive: boolean;
+	showToasties: boolean;
 }
 
 export const DEFAULT_SETTINGS: SettingsObject = {
@@ -12,4 +13,5 @@ export const DEFAULT_SETTINGS: SettingsObject = {
 	trashNotePattern: "^Untitled",
 	trashNoteFolderPath: "/",
 	recursive: false,
+	showToasties: true,
 };
