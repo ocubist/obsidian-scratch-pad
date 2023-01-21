@@ -71,7 +71,7 @@ export class SettingsTab extends PluginSettingTab {
 				text.setValue(this.plugin.settings.trashNotePattern).onChange(
 					async (value) => {
 						if (value === "") {
-							this.plugin.settings.trashNoteFolderPath =
+							this.plugin.settings.trashNotePattern =
 								DEFAULT_SETTINGS.trashNotePattern;
 
 							this.hide();
