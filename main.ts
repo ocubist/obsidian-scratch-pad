@@ -1,6 +1,8 @@
 import { Plugin, TFile } from "obsidian";
 import { deleteTrashNotesCommand } from "src/commands/deleteTrashNotesCommand";
 import { deleteTrashNotes } from "src/features/deleteTrashNotes";
+import { getDifferenceOfTwoNoteArrays } from "src/helpers/getDifferenceOfTwoNoteArrays";
+import { getOpenNotes } from "src/helpers/getOpenNotes";
 import { DEFAULT_SETTINGS, SettingsObject } from "src/settings/SettingsObject";
 import { SettingsTab } from "src/settings/SettingsTab";
 
@@ -49,10 +51,21 @@ export default class ScratchPadPlugin extends Plugin {
 	}
 
 	async updateOpenNotes() {
-		// const newOpenNotes = getOpenNotes();
-		// const difference = getDifferenceOfTwoNoteArrays(
-		// 	newOpenNotes,
-		// 	this.openNotes
-		// );
+		const newOpenNotes = getOpenNotes();
+		if (this.settings.deleteTrashNotesOnTabClose) {
+			const difference = getDifferenceOfTwoNoteArrays(
+				newOpenNotes,
+				this.openNotes
+			);
+
+			const closedTabs = [...difference.missingNotes];
+
+			while (closedTabs.length > 0) {
+				const note = closedTabs.pop();
+				// @ts-ignore
+				if (!note.deleted) {
+				}
+			}
+		}
 	}
 }
