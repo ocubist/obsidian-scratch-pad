@@ -1,14 +1,39 @@
 import { Notice, TFile } from "obsidian";
-import { findTrashNotes } from "./findTrashNotes";
+import { UnexpectedError } from "src/errors/UnexpectedError";
+import { isTrashNote } from "./isTrashNote";
 
-export async function deleteTrashNotes() {
-	const trashNotes = findTrashNotes();
-	const length = trashNotes.length;
+export async function deleteTrashNotes(notes: TFile[]) {
+	const _notes = [...notes];
 
-	while (trashNotes.length > 0) {
-		const noteToDelete = trashNotes.pop() as TFile;
-		app.vault.delete(noteToDelete); // idea: Maybe better not completely delete them...
+	let deleteCounter = 0;
+	while (_notes.length > 0) {
+		const note = _notes.pop() as TFile;
+		if (isTrashNote(note)) {
+			deleteCounter = deleteCounter + 1;
+			await app.vault.delete(note);
+		}
 	}
 
-	new Notice(`${length} Trash-Notes have been deleted...`); // todo: Handle 0, 1 and many differently
+	fireToasty(deleteCounter);
+}
+
+function fireToasty(amount: number) {
+	if (amount < 0 || !Number.isInteger(amount)) {
+		// * Case: Invalid
+		throw new UnexpectedError(
+			`amount '${amount}' is not a valid amount for deleted Trash-Notes...`
+		);
+	} else if (amount === 0) {
+		// * Case: Zero Trash-Notes deleted
+		return;
+	} else if (amount === 1) {
+		// * Case: 1 Trash-Note deleted
+		new Notice(`1 Trash-Note has been deleted...`);
+	} else if (amount > 1) {
+		// * Case: Many Trash-Notes deleted
+		new Notice(`${amount} Trash-Notes have been deleted...`);
+	} else {
+		// * Case: Should not happen
+		throw new UnexpectedError();
+	}
 }

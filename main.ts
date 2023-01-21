@@ -1,6 +1,7 @@
 import { Plugin, TFile } from "obsidian";
 import { deleteTrashNotesCommand } from "src/commands/deleteTrashNotesCommand";
 import { deleteTrashNotes } from "src/features/deleteTrashNotes";
+import { findTrashNotes } from "src/features/findTrashNotes";
 import { getDifferenceOfTwoNoteArrays } from "src/helpers/getDifferenceOfTwoNoteArrays";
 import { getOpenNotes } from "src/helpers/getOpenNotes";
 import { DEFAULT_SETTINGS, SettingsObject } from "src/settings/SettingsObject";
@@ -21,10 +22,14 @@ export default class ScratchPadPlugin extends Plugin {
 		// # Commands
 		this.addCommand(deleteTrashNotesCommand);
 
-		// # Delete Trash-Notes on Start-Up
-		app.workspace.onLayoutReady(this.deleteTrashNotesOnStartUp.bind(this));
+		// # On StartUp
+		app.workspace.onLayoutReady(this.onStartUp.bind(this));
 
 		// # Update Open-Notes
+		app.workspace.on(
+			"layout-change",
+			this.deleteClosedTrashNotes.bind(this)
+		);
 	}
 
 	onunload() {}
@@ -41,31 +46,39 @@ export default class ScratchPadPlugin extends Plugin {
 		await this.saveData(this.settings);
 	}
 
-	async deleteTrashNotesOnStartUp() {
-		// @guard
-		if (!this.settings.deleteTrashNotesOnStartup) {
-			return;
-		}
+	async deleteClosedTrashNotes() {
+		try {
+			const newOpenNotes = getOpenNotes();
+			if (this.settings.deleteTrashNotesOnTabClose) {
+				const difference = getDifferenceOfTwoNoteArrays(
+					this.openNotes,
+					newOpenNotes
+				);
 
-		await deleteTrashNotes();
+				// 	originalOpenNotes: this.openNotes,
+				// 	newNotes: difference.newNotes,
+				// 	missingNotes: difference.missingNotes,
+				// });
+
+				const closedNotes = [...difference.missingNotes];
+				await deleteTrashNotes(closedNotes);
+			}
+
+			this.openNotes = newOpenNotes;
+		} catch {
+			// ignore...
+		}
 	}
 
-	async updateOpenNotes() {
-		const newOpenNotes = getOpenNotes();
-		if (this.settings.deleteTrashNotesOnTabClose) {
-			const difference = getDifferenceOfTwoNoteArrays(
-				newOpenNotes,
-				this.openNotes
-			);
+	updateOpenNotes(notes: TFile[]) {
+		this.openNotes = notes;
+	}
 
-			const closedTabs = [...difference.missingNotes];
+	async onStartUp() {
+		this.updateOpenNotes(getOpenNotes());
 
-			while (closedTabs.length > 0) {
-				const note = closedTabs.pop();
-				// @ts-ignore
-				if (!note.deleted) {
-				}
-			}
+		if (this.settings.deleteTrashNotesOnStartup) {
+			await deleteTrashNotes(findTrashNotes());
 		}
 	}
 }

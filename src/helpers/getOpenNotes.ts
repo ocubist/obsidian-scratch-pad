@@ -11,5 +11,8 @@ export function getOpenNotes() {
 		}
 	});
 
-	return openNotes.filter(filterUniqueNotes).filter(isNote);
+	const _openNotes = openNotes.filter(filterUniqueNotes).filter(isNote);
+	// console.log("⚡ getOpenNotes", { _openNotes });
+
+	return _openNotes;
 }
