@@ -26,9 +26,11 @@ export default class ScratchPadPlugin extends Plugin {
 		app.workspace.onLayoutReady(this.onStartUp.bind(this));
 
 		// # Update Open-Notes
-		app.workspace.on(
-			"layout-change",
-			this.deleteClosedTrashNotes.bind(this)
+		this.registerEvent(
+			app.workspace.on(
+				"layout-change",
+				this.deleteClosedTrashNotes.bind(this)
+			)
 		);
 	}
 
