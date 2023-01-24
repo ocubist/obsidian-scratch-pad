@@ -13,6 +13,7 @@ Additionally, you can choose to discard affected files after Obsidian is initial
 This means you can focus on creating new notes without worrying about the clutter of old ones. It's a great tool for streamlining your workflow and decluttering your note-taking process.
 
 > **Warning**
+>
 > Be careful when setting up rules, as a wrong configuration can lead to deleting files that are not intended to be deleted. It is highly recommended to make a backup of your notes before using the plugin.
 
 Try it out and see how it can help you keep your notes organized.
@@ -24,6 +25,7 @@ Try it out and see how it can help you keep your notes organized.
 ## Installation
 
 > **Note**
+>
 > You must turn of Restricted Mode in order to use Community-Plugins
 
 ### Via Obsidians Community-Plugins
@@ -33,6 +35,7 @@ Simply browse for `Scratch Pad` in Obsidians Community-Plugins and install the P
 ### Manually
 
 > **Note**
+>
 > You must have [nodejs](https://nodejs.org/en/download/) installed in order to install the plugin manually.
 
 1. In the `.obsidian`-folder of your vault, create the folder `plugins`, if it does not exist yet.
