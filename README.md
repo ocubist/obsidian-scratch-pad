@@ -68,6 +68,10 @@ Simply browse for `Scratch Pad` in Obsidians Community-Plugins and install the P
 -   **Reset Settings**  
     Reset settings to default.
 
+## Contributors
+
+I would like to give a special thanks to [Reclusiarch-Grimaldus](https://github.com/Reaper176) for his important role in the development of this obsidian plugin. Without his contributions, support and sponsoring, this plugin wouldn't have been possible.
+
 ## License
 
 This project is licensed under the terms of the MIT License, which means you are free to use, modify, and distribute the software as long as you give credit to the original author and do not hold them liable for any damages.
